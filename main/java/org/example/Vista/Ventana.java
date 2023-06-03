@@ -111,6 +111,12 @@ public class Ventana extends JFrame {
         //PANEL 4
         panel4 = new JPanel(new FlowLayout());
         panel4.setBackground(new Color(140, 86, 86));
+        btnModificar = new JButton("Modificar");
+        panel4.add(btnModificar);
+        btnEliminar = new JButton("Eliminar");
+        panel4.add(btnEliminar);
+
+
 
 
 

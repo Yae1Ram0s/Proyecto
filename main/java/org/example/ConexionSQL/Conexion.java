@@ -8,7 +8,9 @@ public class Conexion {
     public static Conexion _instance;
     private Connection connection;
 
+
     private Conexion(String database) {
+        Connection con;
         this.baseDatos = database;
         try {
             Class.forName("org.sqlite.JDBC");
@@ -33,5 +35,6 @@ public class Conexion {
     public Connection getConnection() {
         return connection;
     }
+
 
 }

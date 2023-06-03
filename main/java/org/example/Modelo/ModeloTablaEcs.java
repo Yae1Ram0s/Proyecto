@@ -1,6 +1,7 @@
 package org.example.Modelo;
 
 import org.example.ConexionSQL.EscritorDAO;
+import org.example.Vista.Ventana;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -159,5 +160,27 @@ public class ModeloTablaEcs implements TableModel {
         }
         return resultado;
     }
+
+    public boolean modificarEscritor(int rowIndex, Escritores escritor){
+        boolean resultado = false;
+        try {
+            if (ldao.actualizar(escritor)){
+                datos.set(rowIndex, escritor);
+                resultado = true;
+            }else {
+                resultado = false;
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return resultado;
+    }
+
+    public Escritores getEscritor(int rowIndex){
+        if (rowIndex < 0 || rowIndex >= datos.size()){
+        }
+        return null;
+    }
+
 
 }
