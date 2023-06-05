@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,16 +19,17 @@ public class ModeloTablaEcs implements TableModel {
     private ArrayList<Escritores> datos;
     private EscritorDAO ldao;
 
+
     public ModeloTablaEcs() {
         ldao = new EscritorDAO();
         datos = new ArrayList<>();
-        cargarDatos();
 
     }
 
     public ModeloTablaEcs(ArrayList<Escritores> datos) {
         this.datos = datos;
         ldao = new EscritorDAO();
+
     }
 
     @Override
@@ -41,8 +43,8 @@ public class ModeloTablaEcs implements TableModel {
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
-        switch (columnIndex) {
+    public String getColumnName(int rowIndex) {
+        switch (rowIndex) {
             case 0:
                 return "ID";
             case 1:
@@ -113,21 +115,27 @@ public class ModeloTablaEcs implements TableModel {
                 break;
             case 1:
                 datos.get(rowIndex).setNombre((String) aValue);
+                break;
             case 2:
                 datos.get(rowIndex).setEdad((Integer) aValue);
+                break;
             case 3:
                 datos.get(rowIndex).setGenero((String) aValue);
+                break;
             case 4:
                 datos.get(rowIndex).setNacionalidad((String) aValue);
+                break;
             case 5:
                 datos.get(rowIndex).setImagen((String) aValue);
+                break;
+            default:
+                System.out.println("No se modifica nada");
         }
 
     }
 
     @Override
     public void addTableModelListener(TableModelListener l) {
-
 
 
     }
@@ -139,6 +147,8 @@ public class ModeloTablaEcs implements TableModel {
 
     public void cargarDatos() {
         try {
+            ArrayList<Escritores> tirar = ldao.obtenerTodo();
+            System.out.println(tirar);
             datos = ldao.obtenerTodo();
         } catch (SQLException sqle) {
             System.out.println("Error al cargar lod datos; " + sqle.getMessage());
@@ -155,32 +165,44 @@ public class ModeloTablaEcs implements TableModel {
             } else {
                 resultado = false;
             }
-        }catch (SQLException sqle){
-            System.out.println(sqle.getMessage());
-        }
-        return resultado;
-    }
-
-    public boolean modificarEscritor(int rowIndex, Escritores escritor){
-        boolean resultado = false;
-        try {
-            if (ldao.actualizar(escritor)){
-                datos.set(rowIndex, escritor);
-                resultado = true;
-            }else {
-                resultado = false;
-            }
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }
         return resultado;
     }
 
-    public Escritores getEscritor(int rowIndex){
-        if (rowIndex < 0 || rowIndex >= datos.size()){
+    public boolean delete(Escritores escritores) {
+        boolean resultado = false;
+        try {
+            if (ldao.delete(String.valueOf(escritores))) {
+                datos.add(escritores);
+                resultado = true;
+            } else {
+                resultado = false;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-        return null;
+        return resultado;
     }
 
-
+    public boolean actualizarEscritores(Escritores escritor){
+        boolean resultado = false;
+        try {
+            if (ldao.update(escritor)){
+                datos.add(escritor);
+                resultado = true;
+            }else {
+                resultado = false;
+            }
+        }catch (SQLException sqle){
+            System.out.println(sqle.getMessage());
+        }
+        return resultado;
+    }
+    public Escritores obtenerEscritor(int rowIndex){
+        return datos.get(rowIndex);
+    }
 }
+
+

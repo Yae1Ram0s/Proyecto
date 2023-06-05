@@ -1,6 +1,8 @@
 package org.example.Modelo;
 
+import javax.swing.*;
 import java.net.URL;
+import java.net.MalformedURLException;
 
 public class Escritores {
     private int ID;
@@ -9,6 +11,7 @@ public class Escritores {
     private String Genero;
     private String Nacionalidad;
     private String Imagen;
+
 
     public Escritores() {
     }
@@ -19,7 +22,7 @@ public class Escritores {
         Edad = edad;
         Genero = genero;
         Nacionalidad = nacionalidad;
-        Imagen = imagen;
+        this.Imagen = imagen;
     }
 
     public int getID() {
@@ -67,7 +70,7 @@ public class Escritores {
     }
 
     public void setImagen(String imagen) {
-        Imagen = imagen;
+        this.Imagen = imagen;
     }
 
     @Override
@@ -81,4 +84,17 @@ public class Escritores {
                 ", Imagen='" + Imagen + '\'' +
                 '}';
     }
+
+    public ImageIcon createIcon(){
+        ImageIcon resultado = null;
+        try{
+            URL Urlimagen = new URL(this.Imagen);
+            resultado = new ImageIcon(Urlimagen);
+        }catch (MalformedURLException malformedURLException){
+            System.out.println(malformedURLException.toString());
+        }
+        return resultado;
+    }
+
+
 }

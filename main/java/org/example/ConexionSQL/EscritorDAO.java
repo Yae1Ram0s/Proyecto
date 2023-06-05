@@ -2,17 +2,14 @@ package org.example.ConexionSQL;
 
 import org.example.Modelo.Escritores;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class EscritorDAO implements InterfazDAO {
 
-
     public EscritorDAO() {
     }
+
 
 
     @Override
@@ -27,6 +24,7 @@ public class EscritorDAO implements InterfazDAO {
         psmt.setString(5, ((Escritores) obj).getImagen());
         rowCount = psmt.executeUpdate();
         return rowCount > 0;
+
     }
 
     @Override
@@ -57,49 +55,36 @@ public class EscritorDAO implements InterfazDAO {
 
     @Override
     public ArrayList obtenerTodo() throws SQLException {
-        ArrayList<Object> escritores = new ArrayList<>();
-        String sqlSelect = "SELECT * FROM Escritores";
-        PreparedStatement psmt = Conexion.getInstance("EscritoresDB.db").getConnection().prepareStatement(sqlSelect);
-        ResultSet rs = psmt.executeQuery();
-
-        while (rs.next()) {
-            int id = rs.getInt("ID");
-            String nombre = rs.getString("Nombre");
-            int edad = rs.getInt("Edad");
-            String genero = rs.getString("Genero");
-            String nacionalidad = rs.getString("Nacionalidad");
-            String imagen = rs.getString("Imagen");
-
-            Escritores escritor = new Escritores(id, nombre, edad, genero, nacionalidad, imagen);
-            escritores.add(escritor);
+        String sql = "SELECT * FROM Escritores";
+        ArrayList<Escritores> resultado = new ArrayList<>();
+        Statement stm = Conexion.getInstance("EscritoresDB.db").getConnection().createStatement();
+        ResultSet rst = stm.executeQuery(sql);
+        while (rst.next()){
+            resultado.add(new Escritores (rst.getInt(1), rst.getString(2),
+                    rst.getInt(3), rst.getString(4),
+                    rst.getString(5), rst.getString(6)));
         }
-
-        return escritores;
+        return resultado;
     }
 
     @Override
     public Object buscarPorID(String ID) throws SQLException {
+        String slq = "SELECT * FROM Escritores WHERE ID = ?;";
+        PreparedStatement pstm = Conexion.getInstance("EscritoresDB.db").getConnection().prepareStatement(slq);
+        pstm.setInt(1, Integer.parseInt(ID));
+        ResultSet rst = pstm.executeQuery();
+        if (rst.next()) {
+            Escritores ecs = new Escritores(rst.getInt(1), rst.getString(2),
+                    rst.getInt(3), rst.getString(4),
+                    rst.getString(5), rst.getString(6));
+            return ecs;
+
+        }
+
         return null;
     }
 
-    public boolean actualizar(Escritores escritor) throws SQLException {
-        String sql = "UPDATE escritores SET nombre = ?, edad = ?, genero = ?, nacionalidad = ?, imagen = ? WHERE id = ?";
-        PreparedStatement stmt = Conexion.getInstance("EscritoresDB.db").getConnection().prepareStatement(sql);
-        try {
-            stmt.setString(1, escritor.getNombre());
-            stmt.setInt(2, escritor.getEdad());
-            stmt.setString(3, escritor.getGenero());
-            stmt.setString(4, escritor.getNacionalidad());
-            stmt.setString(5, escritor.getImagen());
-            stmt.setInt(6, escritor.getID());
 
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
-        }catch (SQLException e){
-            System.out.println("Error al actualizar el escritor: " + e.getMessage());
-        }
-        return false;
-    }
 }
 
 
