@@ -1,6 +1,5 @@
 package org.example.Vista;
 
-import org.example.Controlador.ControladorEcs;
 import org.example.Modelo.ModeloTablaEcs;
 
 import javax.swing.*;
@@ -18,9 +17,11 @@ public class Ventana extends JFrame {
     private JLabel lblNacionalidad;
     private JLabel lbl2Nacionalidad;
     private JLabel lblImagen;
+    private JLabel lbl2Imagen;
+    private JLabel lbl3Imagen;
     private JLabel ApartadoEliminar;
     private JLabel lblElimar;
-    private JLabel lbl2Imagen;
+
 
     private JTextField txtEliminar;
     private JTextField txtID;
@@ -36,21 +37,23 @@ public class Ventana extends JFrame {
     private JTextField txtImagen;
     private JTextField txt2Imagen;
 
+
     private JButton btnAgregar;
     private JButton btnCargar;
     private JButton btnActualizar;
     private JButton btnEliminar;
 
-    private GridLayout layout;
 
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
     private JPanel panel4;
 
+
     private JScrollPane scrollPane;
     private JTable tblEscritor;
     private ModeloTablaEcs modelo;
+    private GridLayout layout;
 
 
     public Ventana(String title) throws HeadlessException {
@@ -110,15 +113,13 @@ public class Ventana extends JFrame {
         panel2.add(btnCargar);
         panel2.add(scrollPane);
 
-
         this.getContentPane().add(panel2, 1);
 
         //PANEL 3
         panel3 = new JPanel(new FlowLayout());
         panel3.setBackground(new Color(166, 79, 29));
-        lblImagen = new JLabel("Imagen");
-        panel3.add(lblImagen);
-
+        lbl3Imagen = new JLabel("Imagen");
+        this.panel3.add(lbl3Imagen);
 
         this.getContentPane().add(panel3, 2);
 
@@ -172,18 +173,11 @@ public class Ventana extends JFrame {
         panel4.add(txtEliminar);
         panel4.add(btnEliminar);
 
-
-
-
-
         this.getContentPane().add(panel4, 3);
-
-
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-
     }
+
 
     public JLabel getLblID() {
         return lblID;
@@ -490,7 +484,13 @@ public class Ventana extends JFrame {
         return btnEliminar;
     }
 
+    public JLabel getLbl3Imagen() {
+        return lbl3Imagen;
+    }
 
+    public void setLbl3Imagen(JLabel lbl3Imagen) {
+        this.lbl3Imagen = lbl3Imagen;
+    }
 
     public void setBtnEliminar(JButton btnEliminar) {
         this.btnEliminar = btnEliminar;
@@ -515,9 +515,4 @@ public class Ventana extends JFrame {
         txt2Nacionalidad.setText("");
         txt2Imagen.setText("");
     }
-
-    public void LimpiarID(){
-        txtID.setText("");
-    }
-
 }

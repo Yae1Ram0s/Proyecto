@@ -22,11 +22,11 @@ public class ControladorEcs extends MouseAdapter {
         this.ventana = ventana;
         this.modelo = new ModeloTablaEcs();
         this.ventana.getTblEscritor().setModel(modelo);
+        this.ventana.getTblEscritor().addMouseListener(this);
         this.ventana.getBtnCargar().addMouseListener(this);
         this.ventana.getBtnAgregar().addMouseListener(this);
         this.ventana.getBtnEliminar().addMouseListener(this);
         this.ventana.getBtnActualizar().addMouseListener(this);
-
     }
 
 
@@ -39,7 +39,10 @@ public class ControladorEcs extends MouseAdapter {
             this.ventana.getTblEscritor().updateUI();
         }
 
+
+
         if (e.getSource() == this.ventana.getBtnAgregar()) {
+            int ultimoid = modelo.obtenerUltimoID();
             Escritores escritor = new Escritores();
             escritor.setID(0);
             escritor.setNombre(this.ventana.getTxtNombre().getText());
@@ -56,6 +59,8 @@ public class ControladorEcs extends MouseAdapter {
             this.ventana.limpiar();
 
         }
+
+
 
         if (e.getSource() == this.ventana.getBtnActualizar()) {
             int respuesta = JOptionPane.showConfirmDialog(ventana, "¿Esta seguro de actualizar?", "Actualizar datos", JOptionPane.YES_NO_OPTION);
@@ -79,6 +84,8 @@ public class ControladorEcs extends MouseAdapter {
                 this.ventana.LimparPanel4();
             }
         }
+
+
 
         if (e.getSource() == this.ventana.getBtnEliminar()) {
             int respuesta = JOptionPane.showConfirmDialog(ventana, "¿Esta Seguro?", "Eliminar", JOptionPane.YES_NO_OPTION);
@@ -117,22 +124,10 @@ public class ControladorEcs extends MouseAdapter {
             int rowIndex = this.ventana.getTblEscritor().getSelectedRow();
             modelo.obtenerEscritor(rowIndex);
             Escritores temp = modelo.obtenerEscritor(rowIndex);
-            this.ventana.getLbl2Imagen().setText("");
-            this.ventana.getLbl2Imagen().setIcon(temp.createIcon());
+            this.ventana.getLbl3Imagen().setText("");
+            this.ventana.getLbl3Imagen().setIcon(temp.createIcon());
 
 
         }
     }
-
-
-
-
 }
-
-
-
-
-
-
-
-

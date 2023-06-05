@@ -10,8 +10,6 @@ public class EscritorDAO implements InterfazDAO {
     public EscritorDAO() {
     }
 
-
-
     @Override
     public boolean insertar(Object obj) throws SQLException {
         String sqlInsert = "INSERT INTO Escritores(Nombre, Edad, Genero, Nacionalidad, Imagen) VALUES(?, ?, ?, ?, ?)";
@@ -24,7 +22,6 @@ public class EscritorDAO implements InterfazDAO {
         psmt.setString(5, ((Escritores) obj).getImagen());
         rowCount = psmt.executeUpdate();
         return rowCount > 0;
-
     }
 
     @Override
@@ -83,6 +80,7 @@ public class EscritorDAO implements InterfazDAO {
 
         return null;
     }
+
 
 
 }
