@@ -42,7 +42,6 @@ public class ControladorEcs extends MouseAdapter {
 
 
         if (e.getSource() == this.ventana.getBtnAgregar()) {
-            int ultimoid = modelo.obtenerUltimoID();
             Escritores escritor = new Escritores();
             escritor.setID(0);
             escritor.setNombre(this.ventana.getTxtNombre().getText());
